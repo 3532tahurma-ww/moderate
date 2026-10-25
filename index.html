@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#f28c38">
+  <meta name="description" content="Moderate Games - cozy mini oyunlar">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Moderate Games</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+    <section id="home" class="screen">
+      <header class="hero">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#f28c38"/><circle cx="32" cy="32" r="14" fill="#fffaf3"/></svg>
+        </div>
+        <h1>Moderate Games</h1>
+        <p class="tagline">Sakin ol, dengede kal. Küçük oyunlar, sıcak anlar.</p>
+      </header>
+      <main id="game-list" class="game-grid"></main>
+      <footer class="foot">☕ cozy mini games</footer>
+    </section>
+
+    <section id="game" class="screen hidden">
+      <div class="topbar">
+        <button id="back-btn" class="icon-btn" aria-label="Menüye dön">←</button>
+        <h2 id="game-title"></h2>
+        <span class="spacer"></span>
+        <button id="guide-btn" class="icon-btn" aria-label="Nasıl oynanır">?</button>
+      </div>
+      <div id="game-root"></div>
+    </section>
+
+    <div id="guide" class="guide hidden" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+      <div class="book">
+        <button id="guide-close" class="icon-btn book-close" aria-label="Kapat">✕</button>
+        <div class="book-head">📖 Nasıl oynanır</div>
+        <div class="book-page">
+          <div id="guide-icon" class="book-icon"></div>
+          <h3 id="guide-title"></h3>
+          <p id="guide-text"></p>
+        </div>
+        <div class="book-nav">
+          <button id="guide-prev" class="btn ghost">‹</button>
+          <div id="guide-dots" class="book-dots"></div>
+          <button id="guide-next" class="btn">›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/games/weita.js"></script>
+  <script src="js/games/aeya.js"></script>
+  <script src="js/games/presia.js"></script>
+  <script>MG.start();</script>
+</body>
+</html>
