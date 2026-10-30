@@ -98,6 +98,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   box-shadow: var(--shadow);
 }
 #game-root { flex: 1; position: relative; min-height: 0; }
+.family-grid { max-height: 100%; overflow-y: auto; padding: 4px 2px 16px; align-content: start; }
 
 .btn {
   border: none;
@@ -507,11 +508,40 @@ button { font: inherit; color: inherit; cursor: pointer; }
   cursor: pointer;
 }
 .presia-box canvas { display: block; border-radius: 14px; box-shadow: var(--shadow); }
+.overlay.presia-corner {
+  inset: 56px auto auto 8px;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 0;
+  pointer-events: none;
+}
+.overlay.presia-corner .panel {
+  pointer-events: auto;
+  max-width: 190px;
+  padding: 14px 14px;
+  border-radius: 20px;
+}
+.overlay.presia-corner .panel h3 { font-size: 1.15rem; }
+.overlay.presia-corner .panel p { font-size: .8rem; margin-bottom: 10px; }
+.overlay.presia-corner .panel .score { font-size: 2rem; }
+.overlay.presia-corner .panel .sub { margin-bottom: 10px; }
+.overlay.presia-corner .panel .actions { gap: 8px; }
+.overlay.presia-corner .panel .btn { padding: 8px 14px; font-size: .9rem; }
 .presia-controls { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .presia-feed .col-label { min-width: 72px; }
 .presia-feed { width: 100%; max-width: 360px; display: flex; align-items: center; gap: 12px; padding: 0 8px; }
 .presia-feed input { flex: 1; height: 28px; accent-color: var(--orange); cursor: pointer; }
 .presia-box.danger canvas { animation: shake .12s infinite; }
+
+/* ---------- Water Simulation ---------- */
+.water-tools { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.water-tools .pill.on { background: var(--orange); color: var(--white); border-color: var(--orange); }
+.water-box { min-height: 220px; }
+.water-val { min-width: 44px; text-align: right; font-size: .85rem; color: var(--orange-deep); }
+.water .presia-feed { gap: 8px; }
+.water .presia-feed input { height: 22px; }
+.water .presia-feed input[type="color"] { flex: 1; height: 26px; padding: 0; border: 2px solid var(--line); border-radius: 8px; background: none; }
 
 /* ---------- Guide booklet ---------- */
 .guide {

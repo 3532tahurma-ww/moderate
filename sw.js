@@ -1,4 +1,4 @@
-const VERSION = "mg-v5";
+const VERSION = "mg-v21";
 const ASSETS = [
   "./",
   "./index.html",
@@ -8,6 +8,7 @@ const ASSETS = [
   "./js/games/weita.js",
   "./js/games/aeya.js",
   "./js/games/presia.js",
+  "./js/games/water.js",
   "./icons/icon.svg",
   "./icons/icon-192.png",
   "./icons/icon-512.png",

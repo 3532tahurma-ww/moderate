@@ -1,5 +1,6 @@
 (function () {
   const games = [];
+  const families = {}; // id -> { id, name, emoji, desc }; games with `family` are listed in that family's panel
   let current = null;
 
   const $ = (id) => document.getElementById(id);
@@ -17,6 +18,10 @@
   };
 
   function register(game) { games.push(game); }
+
+  function family(def) { families[def.id] = def; }
+
+  const familyHash = (id) => "family/" + id;
 
   let guidePage = 0;
 
@@ -51,19 +56,30 @@
     renderGuide();
   }
 
+  function card(item, best, hash) {
+    const el = document.createElement("button");
+    el.className = "card";
+    el.innerHTML =
+      `<div class="thumb">${item.emoji}</div>` +
+      `<h3>${item.name}</h3><p>${item.desc}</p>` +
+      `<span class="best">${best ? "En iyi: " + best : "Henüz oynanmadı"}</span>`;
+    el.addEventListener("click", () => { location.hash = hash; });
+    return el;
+  }
+
+  const bestOf = (g) => storage.get(g.id + ":best", 0);
+
   function renderList() {
     const list = $("game-list");
     list.innerHTML = "";
+    const shown = new Set();
     games.forEach((g) => {
-      const card = document.createElement("button");
-      card.className = "card";
-      const best = storage.get(g.id + ":best", 0);
-      card.innerHTML =
-        `<div class="thumb">${g.emoji}</div>` +
-        `<h3>${g.name}</h3><p>${g.desc}</p>` +
-        `<span class="best">${best ? "En iyi: " + best : "Henüz oynanmadı"}</span>`;
-      card.addEventListener("click", () => { location.hash = g.id; });
-      list.appendChild(card);
+      if (!g.family) return list.appendChild(card(g, bestOf(g), g.id));
+      if (shown.has(g.family)) return;
+      shown.add(g.family);
+      const f = families[g.family];
+      const members = games.filter((m) => m.family === f.id);
+      list.appendChild(card(f, Math.max(...members.map(bestOf)), familyHash(f.id)));
     });
     const soon = document.createElement("div");
     soon.className = "card locked";
@@ -71,20 +87,39 @@
     list.appendChild(soon);
   }
 
+  // Where the back button leads: a game in a family goes back to its panel, everything else home.
+  let parent = "";
+  const goBack = () => { location.hash = parent; };
+
+  // A family's own panel: one card per version.
+  function renderFamily(f) {
+    const grid = document.createElement("div");
+    grid.className = "game-grid family-grid";
+    games.filter((g) => g.family === f.id).forEach((g) => grid.appendChild(card(g, bestOf(g), g.id)));
+    $("game-root").appendChild(grid);
+  }
+
   function route() {
     const id = location.hash.slice(1);
     const game = games.find((g) => g.id === id);
+    const fam = id.startsWith("family/") ? families[id.slice(7)] : null;
     if (current) { current.unmount(); current = null; }
     closeGuide();
     $("game-root").innerHTML = "";
 
-    if (game) {
+    if (game || fam) {
       $("home").classList.add("hidden");
       $("game").classList.remove("hidden");
-      $("game-title").textContent = game.name;
+      $("game-title").textContent = (game || fam).name;
+      $("guide-btn").classList.toggle("hidden", !(game && game.guide));
+    }
+    if (game) {
       current = game;
-      $("guide-btn").classList.toggle("hidden", !game.guide);
-      game.mount($("game-root"), { storage, openGuide, guideOpen, exit: () => { location.hash = ""; } });
+      parent = game.family ? familyHash(game.family) : "";
+      game.mount($("game-root"), { storage, openGuide, guideOpen, exit: goBack });
+    } else if (fam) {
+      parent = "";
+      renderFamily(fam);
     } else {
       $("game").classList.add("hidden");
       $("home").classList.remove("hidden");
@@ -93,7 +128,7 @@
   }
 
   function start() {
-    $("back-btn").addEventListener("click", () => { location.hash = ""; });
+    $("back-btn").addEventListener("click", goBack);
     $("guide-btn").addEventListener("click", openGuide);
     $("guide-close").addEventListener("click", closeGuide);
     $("guide-prev").addEventListener("click", () => stepGuide(-1));
@@ -117,5 +152,5 @@
     }
   }
 
-  window.MG = { register, start, storage };
+  window.MG = { register, family, start, storage };
 })();

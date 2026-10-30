@@ -454,7 +454,7 @@
       document.removeEventListener("visibilitychange", onVis);
     }
 
-    return { id: opts.id, name: opts.name, emoji: opts.emoji, desc: opts.desc, guide: opts.guide, mount, unmount, pause };
+    return { id: opts.id, family: "weita", name: opts.name, emoji: opts.emoji, desc: opts.desc, guide: opts.guide, mount, unmount, pause };
   }
 
   const GUIDE = {
@@ -472,9 +472,11 @@
     xscore: { icon: "🏆", title: "Puan", text: "Puan; beyazın dolduğu yüzdeye, beyazın katına ve orta barın rengine göre birikir. Beyazı tamamen doldurduğunda tur biter, hızlı bitirirsen süre bonusu da alırsın." },
   };
 
+  MG.family({ id: "weita", name: "Weita", emoji: "🟠", desc: "Turuncuyu dengede tut, beyazı doldur." });
+
   MG.register(createWeita({
     id: "weita",
-    name: "Weita Basic",
+    name: "Weita 1.0",
     emoji: "🟠",
     desc: "Turuncuyu dengede tut, beyazı doldur.",
     intro: "Daireyi baştan sona uzun uzun salla, turuncuyu çizginin üstünde tut, beyazı doldur.",
@@ -483,7 +485,7 @@
 
   MG.register(createWeita({
     id: "weita-expanded",
-    name: "Weita Expanded",
+    name: "Weita 1.1",
     emoji: "🔵",
     desc: "Renkli orta bar, Tut! anları ve koyulaşan beyaz.",
     intro: "Turuncu tepeye ulaşınca pes etme: Tut! ekranında butona durmadan bas, beyazı koyulaştır, puanı katla.",
